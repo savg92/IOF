@@ -1,0 +1,43 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "34.102.43.71",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "Forge",
+            "database": "Forge",
+            "username": "root"
+        },
+        {
+            "previewLimit": 50,
+            "server": "silly.db.elephantsql.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "database": "penhaioa",
+            "username": "penhaioa",
+            "name": "easy media"
+        },
+        {
+            "previewLimit": 50,
+            "server": "isabelle.db.elephantsql.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "IOF",
+            "database": "moojdrpx",
+            "username": "moojdrpx"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "local Postgre",
+            "database": "postgres",
+            "username": "newuser"
+        }
+    ]
+}
