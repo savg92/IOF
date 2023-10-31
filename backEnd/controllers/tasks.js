@@ -36,21 +36,21 @@ const getTaskById = async (req, res) => {
     get all tasks associated with a project
 */
 const getTasksByProjectId = async (req, res) => {
-	try {
-		const { id } = req.params;
-		const tasks = await prisma.task.findMany({
-			where: {
-				project_id: parseInt(id),
-			},
-		});
-		res.json(tasks);
-	} catch (error) {
-		if (error instanceof Error) {
-			res.status(500).json({ error: error.message });
-		} else {
-			res.status(500).json({ error: 'An unknown error occurred' });
-		}
-	}
+    try {
+        const { id } = req.params;
+        const tasks = await prisma.task.findMany({
+            where: {
+                projectId: parseInt(id),
+            },
+        });
+        res.json(tasks);
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(500).json({ error: error.message });
+        } else {
+            res.status(500).json({ error: 'An unknown error occurred' });
+        }
+    }
 };
 
 /* 

@@ -4,8 +4,8 @@ type User = {
 	lastname?: string | null;
 	email?: string;
 	password?: string;
-	createAt?: string;
-	updateAt?: string;
+	createdAt?: string;
+	updatedAt?: string;
 };
 
 type Project = {
@@ -13,18 +13,18 @@ type Project = {
 	name?: string;
 	description?: string;
 	authorId?: number;
-	createAt?: string;
-	updateAt?: string;
+	createdAt?: string;
+	updatedAt?: string;
 };
 
 type Task = {
 	id?: number;
 	title?: string;
 	description?: string;
-	status?: Status;
+	status?: Status | string;
 	projectId?: number;
-	createAt?: string;
-	updateAt?: string;
+	createdAt?: string;
+	updatedAt?: string;
 };
 
 enum Status {
@@ -35,8 +35,8 @@ enum Status {
 type TaskCollaborator = {
 	taskId?: number;
 	userId?: number;
-	createAt?: string;
-	updateAt?: string;
+	createdAt?: string;
+	updatedAt?: string;
 };
 
 export type { User, Project, Task, Status, TaskCollaborator };

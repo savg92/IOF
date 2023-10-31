@@ -14,7 +14,7 @@ const getTaskById = async (id: Task['id']) => {
 };
 
 const getTasksByProjectId = async (projectId: Task['projectId']) => {
-	const response = await axios.get(`${API_URL}/tasks?/project/${projectId}`);
+	const response = await axios.get(`${API_URL}/tasks/project/${projectId}`);
 	return response.data;
 };
 

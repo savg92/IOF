@@ -41,6 +41,7 @@ const Projects = () => {
 						.map((project, index) => (
 							<li key={index}>
 								<Card
+									id={project.id || 0}
 									name={project.name || ''}
 									description={project.description || ''}
 								/>

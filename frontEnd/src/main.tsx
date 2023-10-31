@@ -9,7 +9,7 @@ import Projects from './components/Projects.tsx';
 import ErrorPage from './components/ErrorPage.tsx';
 import NewProject from './components/NewProject.tsx';
 import SignUp from './components/SignUp.tsx';
-import Project from './routes/project.tsx';
+import Project from './routes/Project.tsx';
 
 const router = createBrowserRouter([
 	{
