@@ -1,34 +1,50 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.tsx';
+import './index.css';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { ThemeProvider } from '@material-tailwind/react';
 import Projects from './components/Projects.tsx';
+import ErrorPage from './components/ErrorPage.tsx';
+import NewProject from './components/NewProject.tsx';
+import SignUp from './components/SignUp.tsx';
+import Project from './routes/project.tsx';
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <App/>,
-    children: [
+		element: <App />,
+    errorElement: <ErrorPage />,
+		children: [
+			{
+				index: true,
+				element: <Projects />,
+			},
+			{
+				path: '/project/:id',
+				element: <Project />,
+			},
       {
-        index: true,
-        element: <Projects/>,
+        path: '/newProject',
+        element: <NewProject />,
       },
       {
-        path: 'about',
-        element: <h1>About</h1>,
-      },
-      {
-        path: 'contact',
-        element: <h1>Contact</h1>,
-      },
-    ],
+        path: '/signUp',
+        element: <SignUp />,
+      }
+      // {
+      //   path: 'contact',
+      //   element: <h1>Contact</h1>,
+      // },
+		],
 	},
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
-		<RouterProvider router={router} />
+		<ThemeProvider>
+			<RouterProvider router={router} />
+		</ThemeProvider>
 	</React.StrictMode>
 );
