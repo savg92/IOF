@@ -54,11 +54,11 @@ const getTasksByProjectId = async (req, res) => {
 };
 
 /* 
-    create a task, title, description, status, project_id are required, author_id is optional.
+    create a task, title, description, status, project_id are required
 */
 const createTask = async (req, res) => {
     try {
-        const { title, description, status, projectId, authorId } = req.body;
+        const { title, description, status, projectId } = req.body;
         const task = await prisma.task.create({
             data: {
                 title,
@@ -67,11 +67,6 @@ const createTask = async (req, res) => {
                 project: {
                     connect: { id: parseInt(projectId) },
                 },
-                ...(authorId && {
-                    author: {
-                        connect: { id: parseInt(authorId) },
-                    },
-                }),
             },
         });
         res.json(task);
@@ -93,7 +88,6 @@ const updateTask = async (req, res) => {
         if (description) data.description = description;
         if (status) data.status = status;
         if (projectId) data.project = { connect: { id: parseInt(projectId) } };
-        if (authorId) data.author = { connect: { id: parseInt(authorId) } };
         const task = await prisma.task.update({
             where: {
                 id: parseInt(id),

@@ -17,7 +17,7 @@ model User {
   email     String    @unique
   password  String
   projects  Project[]
-  tasks     Task[]
+  tasks     TaskCollaborator[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
@@ -34,19 +34,27 @@ model Project {
 }
 
 model Task {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String
-  status      Status
-  project     Project  @relation(fields: [projectId], references: [id])
-  projectId   Int
-  author      User     @relation(fields: [authorId], references: [id])
-  authorId    Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             Int           @id @default(autoincrement())
+  title          String
+  description    String
+  status         Status
+  project        Project       @relation(fields: [projectId], references: [id])
+  projectId      Int
+  collaborators  TaskCollaborator[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
 }
 
 enum Status {
   PENDING
   COMPLETE
+}
+
+model TaskCollaborator {
+  task   Task   @relation(fields: [taskId], references: [id])
+  taskId Int
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int
+
+  @@id([taskId, userId])
 }
