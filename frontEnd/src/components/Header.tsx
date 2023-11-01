@@ -4,7 +4,7 @@ import Logo from '../assets/internet_of_fields_logo.svg';
 const Header = () => {
 	return (
 		<>
-			<header className='header flex flex-row justify-between -center p-4 shadow'>
+			<header className='header flex flex-row justify-between p-4 shadow fixed w-full z-10 bg-white'>
 				<Link
 					to='/'
 					className='flex flex-row items-center gap-6'

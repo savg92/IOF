@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getAllProjects } from '../services/projects';
 import { Project } from '../types';
-import Card from './Cards';
+import Card from '../components/Cards';
 // const API_URL = import.meta.env.VITE_API_URL;
 
 const Projects = () => {
@@ -9,6 +9,7 @@ const Projects = () => {
 	const [searchTerm, setSearchTerm] = useState('');
 
 	useEffect(() => {
+		const controller = new AbortController();
 		getAllProjects()
 			.then((data) => {
 				setProjects(data);
@@ -16,6 +17,9 @@ const Projects = () => {
 			.catch((error) => {
 				console.error('Error fetching projects:', error);
 			});
+		return () => {
+			controller.abort();
+		}
 	}, []);
 
 	return (

@@ -6,7 +6,7 @@ function App() {
 	return (
 		<>
 			<Header />
-			<main className='main'>
+			<main className='main pt-36'>
 				<Outlet />
 			</main>
 		</>

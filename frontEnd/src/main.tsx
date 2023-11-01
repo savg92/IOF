@@ -5,7 +5,7 @@ import './index.css';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from '@material-tailwind/react';
-import Projects from './components/Projects.tsx';
+import Projects from './routes/Projects.tsx';
 import ErrorPage from './components/ErrorPage.tsx';
 import NewProject from './components/NewProject.tsx';
 import SignUp from './components/SignUp.tsx';
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <App />,
-    errorElement: <ErrorPage />,
+		errorElement: <ErrorPage />,
 		children: [
 			{
 				index: true,
@@ -25,18 +25,18 @@ const router = createBrowserRouter([
 				path: '/project/:id',
 				element: <Project />,
 			},
-      {
-        path: '/newProject',
-        element: <NewProject />,
-      },
-      {
-        path: '/signUp',
-        element: <SignUp />,
-      }
-      // {
-      //   path: 'contact',
-      //   element: <h1>Contact</h1>,
-      // },
+			{
+				path: '/newProject',
+				element: <NewProject />,
+			},
+			{
+				path: '/signUp',
+				element: <SignUp />,
+			},
+			// {
+			//   path: 'contact',
+			//   element: <h1>Contact</h1>,
+			// },
 		],
 	},
 ]);
