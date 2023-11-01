@@ -105,21 +105,32 @@ const updateTask = async (req, res) => {
 };
 
 const deleteTask = async (req, res) => {
-	try {
-		const { id } = req.params;
-		const task = await prisma.task.delete({
-			where: {
-				id: parseInt(id),
-			},
-		});
-		res.json(task);
-	} catch (error) {
-		if (error instanceof Error) {
-			res.status(500).json({ error: error.message });
-		} else {
-			res.status(500).json({ error: 'An unknown error occurred' });
-		}
-	}
+    try {
+        const { id } = req.params;
+        const taskId = parseInt(id);
+
+        // Delete task collaborators associated with the task
+        await prisma.taskCollaborator.deleteMany({
+            where: {
+                taskId: taskId,
+            },
+        });
+
+        // Delete the task
+        const task = await prisma.task.delete({
+            where: {
+                id: taskId,
+            },
+        });
+
+        res.json(task);
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(500).json({ error: error.message });
+        } else {
+            res.status(500).json({ error: 'An unknown error occurred' });
+        }
+    }
 };
 
 module.exports = {
