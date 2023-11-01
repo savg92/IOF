@@ -7,8 +7,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from '@material-tailwind/react';
 import Projects from './routes/Projects.tsx';
 import ErrorPage from './components/ErrorPage.tsx';
-import NewProject from './components/NewProject.tsx';
-import SignUp from './components/SignUp.tsx';
+import NewProject from './routes/NewProject.tsx';
+import SignUp from './routes/SignUp.tsx';
 import Project from './routes/Project.tsx';
 
 const router = createBrowserRouter([

@@ -7,7 +7,12 @@ import {
 	deleteProjet,
 } from '../services/projects';
 import { getUserById } from '../services/users';
-import { deleteTask, getTasksByProjectId } from '../services/tasks';
+import {
+	deleteTask,
+	getTasksByProjectId,
+	updateTask,
+	createTask,
+} from '../services/tasks';
 
 const Project = () => {
 	const [idData, setIdData] = useState<number | null>();
@@ -32,7 +37,9 @@ const Project = () => {
 					setProject(data);
 				})
 				.catch((error) => {
-					console.error('Error fetching projects:', error);
+					// console.error('Error fetching projects:', error);
+					console.log('Error fetching projects:', error);
+
 				});
 		}
 		return () => {
@@ -46,7 +53,8 @@ const Project = () => {
 				setAuthor(data);
 			})
 			.catch((error) => {
-				console.error('Error fetching projects:', error);
+				// console.error('Error fetching projects:', error);
+				console.log('Error fetching projects:', error);
 			});
 		return () => {
 			setAuthor(null);
@@ -60,43 +68,42 @@ const Project = () => {
 				// console.log(data);
 			})
 			.catch((error) => {
-				console.error('Error fetching projects:', error);
+				// console.error('Error fetching projects:', error);
+				console.log('Error fetching projects:', error);
 			});
 		return () => {
 			setTasks(null);
 		};
 	}, [project?.id]);
 
+	const deleteDialogProjRef = useRef<HTMLDialogElement>(null);
+	const editDialogProjRef = useRef<HTMLDialogElement>(null);
 
-
-	const deleteDialogRef = useRef<HTMLDialogElement>(null);
-	const editDialogRef = useRef<HTMLDialogElement>(null);
-
-	function openDeleteDialog() {
-		if (deleteDialogRef.current !== null) {
-			deleteDialogRef.current.showModal();
+	const openDeleteDialogProj = () => {
+		if (deleteDialogProjRef.current !== null) {
+			deleteDialogProjRef.current.showModal();
 		}
-	}
+	};
 
-	function closeDeleteDialog() {
-		if (deleteDialogRef.current !== null) {
-			deleteDialogRef.current.close();
+	const closeDeleteDialogProj = () => {
+		if (deleteDialogProjRef.current !== null) {
+			deleteDialogProjRef.current.close();
 		}
-	}
+	};
 
-	function openEditDialog() {
-		if (editDialogRef.current !== null) {
-			editDialogRef.current.showModal();
+	const openEditDialogProj = () => {
+		if (editDialogProjRef.current !== null) {
+			editDialogProjRef.current.showModal();
 		}
-	}
+	};
 
-	function closeEditDialog() {
-		if (editDialogRef.current !== null) {
-			editDialogRef.current.close();
+	const closeEditDialogProj = () => {
+		if (editDialogProjRef.current !== null) {
+			editDialogProjRef.current.close();
 		}
-	}
+	};
 
-	const deleteProject = () => {
+	const handleDeleteProject = () => {
 		if (project) {
 			if (idData !== null && idData !== undefined) {
 				deleteProjet(idData)
@@ -108,11 +115,11 @@ const Project = () => {
 					});
 			}
 		}
-		closeDeleteDialog();
+		closeDeleteDialogProj();
 		navigate('/');
 	};
 
-	const editProject = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleEditProject = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const form = event.currentTarget;
 		const nameElement = form.elements.namedItem(
@@ -147,13 +154,38 @@ const Project = () => {
 
 		nameElement.value = '';
 		descriptionElement.value = '';
-		closeEditDialog();
+		closeEditDialogProj();
 		navigate('/');
 	};
 
+	const deleteDialogTaskRef = useRef<HTMLDialogElement>(null);
+	const editDialogTaskRef = useRef<HTMLDialogElement>(null);
 
-	const handleDeleteTask = (taskId : Task['id']) => {
-		console.log(taskId);
+	const openDeleteDialogTask = () => {
+		if (deleteDialogTaskRef.current !== null) {
+			deleteDialogTaskRef.current.showModal();
+		}
+	};
+
+	const closeDeleteDialogTask = () => {
+		if (deleteDialogTaskRef.current !== null) {
+			deleteDialogTaskRef.current.close();
+		}
+	};
+
+	const openEditDialogTask = () => {
+		if (editDialogTaskRef.current !== null) {
+			editDialogTaskRef.current.showModal();
+		}
+	};
+
+	const closeEditDialogTask = () => {
+		if (editDialogTaskRef.current !== null) {
+			editDialogTaskRef.current.close();
+		}
+	};
+
+	const handleDeleteTask = (taskId: Task['id']) => {
 		if (taskId) {
 			deleteTask(taskId)
 				.then(() => {
@@ -163,10 +195,116 @@ const Project = () => {
 					console.error('Error deleting task:', error);
 				});
 		}
-		closeDeleteDialog();
+		closeDeleteDialogTask();
+		navigate('/');
+	};
+
+	const hadleEditTask = (event: React.FormEvent<HTMLFormElement>, taskId: Task['id']) => {
+		event.preventDefault();
+		const form = event.currentTarget;
+		const titleElement = form.elements.namedItem(
+			'title'
+		) as HTMLInputElement | null;
+		const descriptionElement = form.elements.namedItem(
+			'descriptionTask'
+		) as HTMLInputElement | null;
+		const statusElement = form.elements.namedItem(
+			'status'
+		) as HTMLInputElement | null;
+
+		if (!titleElement || !descriptionElement || !statusElement) {
+			console.error('Form elements not found');
+			return;
+		}
+
+		const task: Task = {
+			title: titleElement.value,
+			description: descriptionElement.value,
+			status: statusElement.value,
+			projectId: project?.id,
+		};
+
+		if (task.projectId !== null && task.projectId !== undefined) {
+			updateTask(taskId, task)
+				.then((data) => {
+					console.log(data);
+					alert('Task updated successfully');
+					navigate('/');
+				})
+				.catch((error) => {
+					console.error('Error updating task:', error);
+				});
+		}
+
+		titleElement.value = '';
+		descriptionElement.value = '';
+		statusElement.value = '';
+		closeEditDialogTask();
+		navigate('/');
+	};
+
+
+
+	const openNewTaskDialog = useRef<HTMLDialogElement>(null);
+
+	const handleOpenNewTaskDialog = () => {
+		if (openNewTaskDialog.current !== null) {
+			openNewTaskDialog.current.showModal();
+		}
+	};
+	
+	const closeNewTaskDialog = () => {
+		if (openNewTaskDialog.current !== null) {
+			openNewTaskDialog.current.close();
+		}
+	};
+
+	const handleNewTask = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const form = event.currentTarget;
+		const titleElement = form.elements.namedItem(
+			'title'
+		) as HTMLInputElement | null;
+		const descriptionElement = form.elements.namedItem(
+			'descriptionTask'
+		) as HTMLInputElement | null;
+		const statusElement = form.elements.namedItem(
+			'status'
+		) as HTMLInputElement | null;
+
+		if (!titleElement || !descriptionElement || !statusElement) {
+			console.error('Form elements not found');
+			return;
+		}
+
+		const task: Task = {
+			title: titleElement.value,
+			description: descriptionElement.value,
+			status: statusElement.value,
+			projectId: project?.id,
+		};
+
+		console.log(task);
+
+		if (task.projectId !== null && task.projectId !== undefined) {
+			createTask(task)
+				.then((data) => {
+					console.log(data);
+					alert('Task created successfully');
+					navigate('/');
+				})
+				.catch((error) => {
+					console.error('Error creating task:', error);
+				});
+		}
+
+		titleElement.value = '';
+		descriptionElement.value = '';
+		statusElement.value = '';
+		closeNewTaskDialog();
 		navigate('/');
 	}
-
+	
 	return (
 		<>
 			<section>
@@ -188,17 +326,17 @@ const Project = () => {
 					<div>
 						<button
 							className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300'
-							onClick={openEditDialog}
+							onClick={openEditDialogProj}
 						>
 							Edit
 						</button>
 						<dialog
-							ref={editDialogRef}
+							ref={editDialogProjRef}
 							className='dialog rounded-md p-8 w-[400px]'
 						>
 							<form
 								className='flex flex-col justify-center items-center gap-4 w-full'
-								onSubmit={editProject}
+								onSubmit={handleEditProject}
 							>
 								<label htmlFor='name'>Name:</label>
 								<input
@@ -221,18 +359,19 @@ const Project = () => {
 										setProject({ ...project, description: e.target.value })
 									}
 								/>
-								<div className='buttons flex flex-row justify-center'>
+								<div className='buttonsProjArea flex flex-row justify-center'>
 									<input
 										type='cancel'
 										value='Cancel'
-										className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300'
-										onClick={closeEditDialog}
+										className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300 text-center'
+										onClick={closeEditDialogProj}
+										readOnly
 									/>
 									<input
 										type='submit'
 										value='Edit'
-										className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300'
-										// onClick={editProject}
+										className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300 text-center'
+										readOnly
 									/>
 								</div>
 							</form>
@@ -241,25 +380,25 @@ const Project = () => {
 					<div>
 						<button
 							className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300'
-							onClick={openDeleteDialog}
+							onClick={openDeleteDialogProj}
 						>
 							Delete
 						</button>
 						<dialog
-							ref={deleteDialogRef}
+							ref={deleteDialogProjRef}
 							className='dialog rounded-md p-12'
 						>
 							<p>Are you sure you want to delete the project?</p>
 							<div className='buttons flex flex-row justify-center'>
 								<button
-									onClick={closeDeleteDialog}
+									onClick={closeDeleteDialogProj}
 									autoFocus
 									className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300'
 								>
 									Cancel
 								</button>
 								<button
-									onClick={deleteProject}
+									onClick={handleDeleteProject}
 									className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300'
 								>
 									Delete
@@ -272,9 +411,72 @@ const Project = () => {
 			<section>
 				<h4 className='underline text-3xl text-center font-bold m-4'>Tasks:</h4>
 				<section>
-					<button className='border-2 border-gray-300 p-2 rounded-md m-4 hover:bg-gray-300 w-32'>
+					<button
+						className='border-2 border-gray-300 p-2 rounded-md m-4 hover:bg-gray-300 w-32'
+						onClick={handleOpenNewTaskDialog}
+					>
 						New task
 					</button>
+					<dialog
+						className='dialog rounded-md p-8 w-[400px]'
+						ref={openNewTaskDialog}
+					>
+						<form
+							className='flex flex-col justify-center items-center gap-4 w-full'
+							onSubmit={handleNewTask}
+						>
+							<label htmlFor='title'>Title:</label>
+							<input
+								type='text'
+								name='title'
+								id='title'
+								className='mb-4 border-2 border-gray-300 p-2 rounded-md'
+								// value={project?.name}
+								// onChange={(e) =>
+								// 	setProject({ ...project, name: e.target.value })
+								// }
+							/>
+							<label htmlFor='descriptionTask'>Description:</label>
+							<textarea
+								name='descriptionTask'
+								id='descriptionTask'
+								className='mb-4 border-2 border-gray-300 p-2 rounded-md h-60'
+								// value={project?.description}
+								// onChange={(e) =>
+								// 	setProject({ ...project, description: e.target.value })
+								// }
+							/>
+							<label htmlFor='status'>Status:</label>
+							<select
+								name='status'
+								id='status'
+								className='mb-4 border-2 border-gray-300 p-2 rounded-md'
+								// value={project?.description}
+								// onChange={(e) =>
+								// 	setProject({ ...project, description: e.target.value })
+								// }
+							>
+								<option value='PENDING'>Pending</option>
+								<option value='COMPLETE'>Complete</option>
+							</select>
+
+							<div className='buttons flex flex-row justify-center'>
+								<input
+									type='cancel'
+									value='Cancel'
+									className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300 text-center'
+									onClick={closeNewTaskDialog}
+									readOnly
+								/>
+								<input
+									type='submit'
+									value='Create'
+									className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300 text-center'
+									readOnly
+								/>
+							</div>
+						</form>
+					</dialog>
 				</section>
 				<section>
 					{(tasks ? tasks.length : 0) > 0 ? (
@@ -285,6 +487,9 @@ const Project = () => {
 									className='border-2 border-gray-300 p-2 rounded-md m-4 w-96'
 								>
 									<p>Title: {task.title}</p>
+									<p>
+										Id: {task.id} - ProjectId: {task.projectId}
+									</p>
 									<p>Description: {task.description}</p>
 									<p>
 										Status:{' '}
@@ -304,17 +509,17 @@ const Project = () => {
 										<div>
 											<button
 												className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300'
-												onClick={openEditDialog}
+												onClick={openEditDialogTask}
 											>
 												Edit
 											</button>
 											<dialog
-												ref={editDialogRef}
+												ref={editDialogTaskRef}
 												className='dialog rounded-md p-8 w-[400px]'
 											>
 												<form
 													className='flex flex-col justify-center items-center gap-4 w-full'
-													onSubmit={editProject}
+													onSubmit={(e) => hadleEditTask(e, task.id)}
 												>
 													<label htmlFor='title'>Title:</label>
 													<input
@@ -324,10 +529,13 @@ const Project = () => {
 														className='mb-4 border-2 border-gray-300 p-2 rounded-md'
 														value={task?.title}
 														onChange={(e) =>
-															setTasks({
-																...task,
-																title: e.target.value,
-															})
+															setTasks((prevTasks) =>
+																prevTasks?.map((t) =>
+																	t.id === task.id
+																		? { ...t, title: e.target.value }
+																		: t
+																)
+															)
 														}
 													/>
 													<label htmlFor='descriptionTask'>Description:</label>
@@ -337,10 +545,13 @@ const Project = () => {
 														className='mb-4 border-2 border-gray-300 p-2 rounded-md h-60'
 														value={task?.description}
 														onChange={(e) =>
-															setTasks({
-																...task,
-																description: e.target.value,
-															})
+															setTasks((prevTasks) =>
+																prevTasks?.map((t) =>
+																	t.id === task.id
+																		? { ...t, description: e.target.value }
+																		: t
+																)
+															)
 														}
 													/>
 													<label htmlFor='status'>Status:</label>
@@ -350,10 +561,13 @@ const Project = () => {
 														className='mb-4 border-2 border-gray-300 p-2 rounded-md'
 														value={task?.status}
 														onChange={(e) =>
-															setTasks({
-																...task,
-																status: e.target.value,
-															})
+															setTasks((prevTasks) =>
+																prevTasks?.map((t) =>
+																	t.id === task.id
+																		? { ...t, status: e.target.value }
+																		: t
+																)
+															)
 														}
 													>
 														<option value='COMPLETE'>Complete</option>
@@ -364,14 +578,15 @@ const Project = () => {
 														<input
 															type='cancel'
 															value='Cancel'
-															className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300'
-															onClick={closeEditDialog}
+															className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300 text-center'
+															onClick={closeEditDialogTask}
+															readOnly
 														/>
 														<input
 															type='submit'
 															value='Edit'
-															className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300'
-															// onClick={editProject}
+															className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300 text-center'
+															readOnly
 														/>
 													</div>
 												</form>
@@ -380,18 +595,18 @@ const Project = () => {
 										<div>
 											<button
 												className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300'
-												onClick={openDeleteDialog}
+												onClick={openDeleteDialogTask}
 											>
 												Delete
 											</button>
 											<dialog
-												ref={deleteDialogRef}
+												ref={deleteDialogTaskRef}
 												className='dialog rounded-md p-12'
 											>
 												<p>Are you sure you want to delete the task?</p>
 												<div className='buttons flex flex-row justify-center'>
 													<button
-														onClick={closeDeleteDialog}
+														onClick={closeDeleteDialogTask}
 														autoFocus
 														className='border-2 border-gray-300 p-2 rounded-md m-4 w-20 hover:bg-gray-300'
 													>

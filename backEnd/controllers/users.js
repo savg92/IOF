@@ -2,59 +2,75 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const getAllUsers = async (req, res) => {
-    try{
-        const users = await prisma.user.findMany();
-        res.json(users);
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            res.status(500).json({ error: error.message });
-        } else {
-            res.status(500).json({ error: 'An unknown error occurred' });
-        }
-    }
-}
+	try {
+		const users = await prisma.user.findMany({
+			select: {
+				id: true,
+				name: true,
+				lastname: true,
+				email: true,
+				password: false,
+				createdAt: false,
+				updatedAt: false,
+			},
+		});
+		res.json(users);
+	} catch (error) {
+		if (error instanceof Error) {
+			res.status(500).json({ error: error.message });
+		} else {
+			res.status(500).json({ error: 'An unknown error occurred' });
+		}
+	}
+};
 
 const getUserById = async (req, res) => {
-    try{
-        const { id } = req.params;
-        const user = await prisma.user.findUnique({
-            where: {
-                id: parseInt(id)
-            }
-        });
-        res.json(user);
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            res.status(500).json({ error: error.message });
-        } else {
-            res.status(500).json({ error: 'An unknown error occurred' });
-        }
-    }
-}
+	try {
+		const { id } = req.params;
+		const user = await prisma.user.findUnique({
+			where: {
+				id: parseInt(id),
+			},
+			select: {
+				id: true,
+				name: true,
+				lastname: true,
+				email: true,
+				password: false,
+				createdAt: false,
+				updatedAt: false,
+			},
+		});
+		res.json(user);
+	} catch (error) {
+		if (error instanceof Error) {
+			res.status(500).json({ error: error.message });
+		} else {
+			res.status(500).json({ error: 'An unknown error occurred' });
+		}
+	}
+};
 
 const createUser = async (req, res) => {
-    try{
-        const { name, lastname, email, password } = req.body;
-        const user = await prisma.user.create({
-            data: {
-                name,
-                lastname,
-                email,
-                password
-            }
-        });
-        res.json(user);
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            res.status(500).json({ error: error.message });
-        } else {
-            res.status(500).json({ error: 'An unknown error occurred' });
-        }
-    }
-}
+	try {
+		const { name, lastname, email, password } = req.body;
+		const user = await prisma.user.create({
+			data: {
+				name,
+				lastname,
+				email,
+				password,
+			},
+		});
+		res.json(user);
+	} catch (error) {
+		if (error instanceof Error) {
+			res.status(500).json({ error: error.message });
+		} else {
+			res.status(500).json({ error: 'An unknown error occurred' });
+		}
+	}
+};
 
 /* 
     update user, name, email, password fields are optional
@@ -84,28 +100,27 @@ const updateUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-    try{
-        const { id } = req.params;
-        const user = await prisma.user.delete({
-            where: {
-                id: parseInt(id)
-            }
-        });
-        res.json(user);
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            res.status(500).json({ error: error.message });
-        } else {
-            res.status(500).json({ error: 'An unknown error occurred' });
-        }
-    }
-}
+	try {
+		const { id } = req.params;
+		const user = await prisma.user.delete({
+			where: {
+				id: parseInt(id),
+			},
+		});
+		res.json(user);
+	} catch (error) {
+		if (error instanceof Error) {
+			res.status(500).json({ error: error.message });
+		} else {
+			res.status(500).json({ error: 'An unknown error occurred' });
+		}
+	}
+};
 
 module.exports = {
-    getAllUsers,
-    getUserById,
-    createUser,
-    updateUser,
-    deleteUser
-}
+	getAllUsers,
+	getUserById,
+	createUser,
+	updateUser,
+	deleteUser,
+};

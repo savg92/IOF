@@ -49,7 +49,40 @@ const Header = () => {
                                         : 'hover:text-blue-500'
                                 }
                             >
-                                Projects
+                                My Projects
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to='/tasks'
+                                className={({ isActive, isPending }) =>
+                                    isActive || isPending
+                                        ? 'underline'
+                                        : 'hover:text-blue-500'
+                                }
+                            >
+                                My Tasks
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to='/'
+                                className={({ isActive, isPending }) =>
+                                    isActive || isPending
+                                        ? 'underline'
+                                        : 'hover:text-blue-500'
+                                }
+                            >
+                                Log Out
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to='/signin'
+                                className={({ isActive, isPending }) =>
+                                    isActive || isPending
+                                        ? 'underline'
+                                        : 'hover:text-blue-500'
+                                }
+                            >
+                                Sign In
                             </NavLink>
                         </li>
                         <li>
