@@ -11,6 +11,7 @@ import NewProject from './routes/NewProject.tsx';
 import SignUp from './routes/SignUp.tsx';
 import Project from './routes/Project.tsx';
 import MyProjects from './routes/MyProjects.tsx';
+import MyTasks from './routes/MyTasks.tsx';
 
 const router = createBrowserRouter([
 	{
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
 			{
 				path: '/projects',
 				element: <MyProjects />,
+			},
+			{
+				path: '/tasks',
+				element: <MyTasks />,
 			},
 			{
 				path: '/signUp',

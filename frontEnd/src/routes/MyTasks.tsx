@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAllProjectsByUserId } from '../services/projects';
+import { getTaskCollaborationsByUserId } from '../services/taskCollaborations';
 import { Project } from '../types';
 import Card from '../components/Cards';
 
@@ -9,7 +9,7 @@ const Projects = () => {
 
 	useEffect(() => {
 		const controller = new AbortController();
-		getAllProjectsByUserId(1)
+		getTaskCollaborationsByUserId(1)
 			.then((data) => {
 				setProjects(data);
 			})
