@@ -59,6 +59,20 @@ const getTaskCollaborationsByUserId = async (req, res) => {
 const createTaskCollaboration = async (req, res) => {
     try {
         const { taskId, userId } = req.body;
+
+        const task = await prisma.task.findUnique({
+            where: { id: parseInt(taskId) },
+        });
+
+        const user = await prisma.user.findUnique({
+            where: { id: parseInt(userId) },
+        });
+
+        if (!task || !user) {
+            res.status(400).json({ error: 'Task or user does not exist' });
+            return;
+        }
+
         const existingCollaboration = await prisma.taskCollaborator.findUnique({
             where: {
                 taskId_userId: {

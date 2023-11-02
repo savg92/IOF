@@ -1,29 +1,31 @@
 import { useEffect, useState } from 'react';
 import { getTaskCollaborationsByUserId } from '../services/taskCollaborations';
-import { Project } from '../types';
+// import { Task } from '../types';
 import Card from '../components/Cards';
 
-const Projects = () => {
-	const [projects, setProjects] = useState<Project[]>([]);
+const MyTasks = () => {
+	const [tasks, setTasks] = useState([]);
 	const [searchTerm, setSearchTerm] = useState('');
 
 	useEffect(() => {
 		const controller = new AbortController();
 		getTaskCollaborationsByUserId(1)
 			.then((data) => {
-				setProjects(data);
+				setTasks(data.map((task) => task.task));
 			})
 			.catch((error) => {
-				console.error('Error fetching projects:', error);
+				console.error('Error fetching Tasks:', error);
 			});
 		return () => {
 			controller.abort();
 		};
 	}, []);
 
+	console.log(tasks);
+
 	return (
 		<>
-			<h1 className='text-4xl text-center font-bold m-4'>Projects</h1>
+			<h1 className='text-4xl text-center font-bold m-4'>Tasks</h1>
 			<input
 				type='text'
 				placeholder='Search'
@@ -32,21 +34,26 @@ const Projects = () => {
 				onChange={(e) => setSearchTerm(e.target.value)}
 			/>
 
-			<section className='projects flex flex-col justify-center items-center gap-4 m-4'>
+			<section className='Tasks flex flex-col justify-center items-center gap-4 m-4'>
 				<ol className='flex flex-wrap gap-4 justify-center items-center'>
-					{projects
-						.filter(
-							(project) =>
-								project &&
-								(project.name?.includes(searchTerm) ||
-									project.description?.includes(searchTerm))
-						)
-						.map((project, index) => (
-							<li key={index}>
+					{tasks
+						.filter((task) => {
+							if (searchTerm === '') {
+								return task;
+							} else if (
+								task.title
+									.toLowerCase()
+									.includes(searchTerm.toLowerCase())
+							) {
+								return task;
+							}
+						})
+						.map((task) => (
+							<li key={task.id}>
 								<Card
-									id={project.id || 0}
-									name={project.name || ''}
-									description={project.description || ''}
+									title={task.title}
+									description={task.description}
+									status={task.status}
 								/>
 							</li>
 						))}
@@ -56,4 +63,4 @@ const Projects = () => {
 	);
 };
 
-export default Projects;
+export default MyTasks;
