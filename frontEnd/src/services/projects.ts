@@ -13,6 +13,11 @@ const getProjetById = async (id: Project['id']) => {
 	return response.data;
 };
 
+const getAllProjectsByUserId = async (id: Project['authorId']) => {
+	const response = await axios.get(`${API_URL}/projects/user/${id}`);
+	return response.data;
+}
+
 const createProjet = async (data: Project) => {
 	const response = await axios.post(`${API_URL}/projects`, data);
 	return response.data;
@@ -31,6 +36,7 @@ const deleteProjet = async (id: Project['id']) => {
 export {
 	getAllProjects,
 	getProjetById,
+	getAllProjectsByUserId,
 	createProjet,
 	updateProjet,
 	deleteProjet,

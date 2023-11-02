@@ -10,6 +10,7 @@ import ErrorPage from './components/ErrorPage.tsx';
 import NewProject from './routes/NewProject.tsx';
 import SignUp from './routes/SignUp.tsx';
 import Project from './routes/Project.tsx';
+import MyProjects from './routes/MyProjects.tsx';
 
 const router = createBrowserRouter([
 	{
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
 			{
 				path: '/newProject',
 				element: <NewProject />,
+			},
+			{
+				path: '/projects',
+				element: <MyProjects />,
 			},
 			{
 				path: '/signUp',

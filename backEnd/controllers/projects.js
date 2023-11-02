@@ -34,6 +34,25 @@ const getProjectById = async (req, res) => {
     }
 }
 
+const getAllProjectsByUserId = async (req, res) => {
+    try{
+        const { id } = req.params;
+        const projects = await prisma.project.findMany({
+            where: {
+                authorId: parseInt(id)
+            }
+        });
+        res.json(projects);
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            res.status(500).json({ error: error.message });
+        } else {
+            res.status(500).json({ error: 'An unknown error occurred' });
+        }
+    }
+}
+
 /* create a project, name and description are required. 
 The tasks array is optional. 
 If the tasks array is provided, the tasks will be created and associated with the project. 
@@ -108,6 +127,7 @@ const deleteProject = async (req, res) => {
 module.exports = {
     getAllProjects,
     getProjectById,
+    getAllProjectsByUserId,
     createProject,
     updateProject,
     deleteProject

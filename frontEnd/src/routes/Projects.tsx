@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { getAllProjects } from '../services/projects';
 import { Project } from '../types';
 import Card from '../components/Cards';
-// const API_URL = import.meta.env.VITE_API_URL;
 
 const Projects = () => {
 	const [projects, setProjects] = useState<Project[]>([]);
