@@ -222,10 +222,10 @@ const SingUp = () => {
 						>
 							Already have an account?{' '}
 							<Link
-								to='/signIn'
+								to='/login'
 								className='font-medium text-gray-900'
 							>
-								Sign In
+								Log In
 							</Link>
 						</Typography>
 					</form>

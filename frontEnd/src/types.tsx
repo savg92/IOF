@@ -35,6 +35,7 @@ enum Status {
 type TaskCollaborator = {
 	taskId?: number;
 	userId?: number;
+	task?: Task;
 	createdAt?: string;
 	updatedAt?: string;
 };

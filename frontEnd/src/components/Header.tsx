@@ -22,80 +22,72 @@ const Header = () => {
 							<NavLink
 								to='/'
 								className={({ isActive, isPending }) =>
-									isActive || isPending
-										? 'underline'
-										: 'hover:text-blue-500'
+									isActive || isPending ? 'underline' : 'hover:text-blue-500'
 								}
 							>
 								Home
 							</NavLink>
 						</li>
 						<li>
-							<NavLink to='/newProject'
-                                className={({ isActive, isPending }) =>
-                                    isActive || isPending
-                                        ? 'underline'
-                                        : 'hover:text-blue-500'
-                                }
-                            >
-                                New Project
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to='/projects'
-                                className={({ isActive, isPending }) =>
-                                    isActive || isPending
-                                        ? 'underline'
-                                        : 'hover:text-blue-500'
-                                }
-                            >
-                                My Projects
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to='/tasks'
-                                className={({ isActive, isPending }) =>
-                                    isActive || isPending
-                                        ? 'underline'
-                                        : 'hover:text-blue-500'
-                                }
-                            >
-                                My Tasks
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to='/'
-                                className={({ isActive, isPending }) =>
-                                    isActive || isPending
-                                        ? 'underline'
-                                        : 'hover:text-blue-500'
-                                }
-                            >
-                                Log Out
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to='/signin'
-                                className={({ isActive, isPending }) =>
-                                    isActive || isPending
-                                        ? 'underline'
-                                        : 'hover:text-blue-500'
-                                }
-                            >
-                                Sign In
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to='/signup'
-                                className={({ isActive, isPending }) =>
-                                    isActive || isPending
-                                        ? 'underline'
-                                        : 'hover:text-blue-500'
-                                }
-                            >
-                                Sign Up
-                            </NavLink>
-                        </li>
+							<NavLink
+								to='/newProject'
+								className={({ isActive, isPending }) =>
+									isActive || isPending ? 'underline' : 'hover:text-blue-500'
+								}
+							>
+								New Project
+							</NavLink>
+						</li>
+						<li>
+							<NavLink
+								to='/projects'
+								className={({ isActive, isPending }) =>
+									isActive || isPending ? 'underline' : 'hover:text-blue-500'
+								}
+							>
+								My Projects
+							</NavLink>
+						</li>
+						<li>
+							<NavLink
+								to='/tasks'
+								className={({ isActive, isPending }) =>
+									isActive || isPending ? 'underline' : 'hover:text-blue-500'
+								}
+							>
+								My Tasks
+							</NavLink>
+						</li>
+						<li>
+							<NavLink
+								to='/'
+								className={({ isActive, isPending }) =>
+									isActive || isPending ? 'underline' : 'hover:text-blue-500'
+								}
+							>
+								Log Out
+							</NavLink>
+						</li>
+						<li>
+							<NavLink
+								to='/login'
+								className={({ isActive, isPending }) =>
+									isActive || isPending ? 'underline' : 'hover:text-blue-500'
+								}
+							>
+								Log In
+							</NavLink>
+						</li>
+						<li>
+							<NavLink
+								to='/signup'
+								className={({ isActive, isPending }) =>
+									isActive || isPending ? 'underline' : 'hover:text-blue-500'
+								}
+							>
+								Sign Up
+							</NavLink>
+						</li>
 					</ul>
 				</nav>
 			</header>

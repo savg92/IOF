@@ -8,10 +8,11 @@ import { ThemeProvider } from '@material-tailwind/react';
 import Projects from './routes/Projects.tsx';
 import ErrorPage from './components/ErrorPage.tsx';
 import NewProject from './routes/NewProject.tsx';
-import SignUp from './routes/SignUp.tsx';
 import Project from './routes/Project.tsx';
 import MyProjects from './routes/MyProjects.tsx';
 import MyTasks from './routes/MyTasks.tsx';
+import LogIn from './routes/LogIn.tsx';
+import SignUp from './routes/SignUp.tsx';
 
 const router = createBrowserRouter([
 	{
@@ -40,13 +41,13 @@ const router = createBrowserRouter([
 				element: <MyTasks />,
 			},
 			{
-				path: '/signUp',
+				path: '/login',
+				element: <LogIn />,
+			},
+			{
+				path: '/signup',
 				element: <SignUp />,
 			},
-			// {
-			//   path: 'contact',
-			//   element: <h1>Contact</h1>,
-			// },
 		],
 	},
 ]);

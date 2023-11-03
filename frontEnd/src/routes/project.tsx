@@ -430,31 +430,23 @@ const Project = () => {
 								type='text'
 								name='title'
 								id='title'
+								placeholder='Title'
 								className='mb-4 border-2 border-gray-300 p-2 rounded-md'
-								// value={project?.name}
-								// onChange={(e) =>
-								// 	setProject({ ...project, name: e.target.value })
-								// }
+								required
 							/>
 							<label htmlFor='descriptionTask'>Description:</label>
 							<textarea
 								name='descriptionTask'
+								placeholder='Description of the task'
 								id='descriptionTask'
 								className='mb-4 border-2 border-gray-300 p-2 rounded-md h-60'
-								// value={project?.description}
-								// onChange={(e) =>
-								// 	setProject({ ...project, description: e.target.value })
-								// }
+								required
 							/>
 							<label htmlFor='status'>Status:</label>
 							<select
 								name='status'
 								id='status'
 								className='mb-4 border-2 border-gray-300 p-2 rounded-md'
-								// value={project?.description}
-								// onChange={(e) =>
-								// 	setProject({ ...project, description: e.target.value })
-								// }
 							>
 								<option value='PENDING'>Pending</option>
 								<option value='COMPLETE'>Complete</option>
@@ -480,13 +472,15 @@ const Project = () => {
 				</section>
 				<section>
 					{(tasks ? tasks.length : 0) > 0 ? (
-						<ol>
+						<ol className='flex flex-wrap gap-4 justify-center items-center'>
 							{tasks?.map((task, index) => (
 								<li
 									key={index}
-									className='border-2 border-gray-300 p-2 rounded-md m-4 w-96'
+									className='border-2 border-gray-300 p-4 rounded-md m-4 w-96 text-left'
 								>
-									<p>Title: {task.title}</p>
+									<p className='text-center font-bold underline'>
+										Title: {task.title}
+									</p>
 									<p>
 										Id: {task.id} - ProjectId: {task.projectId}
 									</p>
