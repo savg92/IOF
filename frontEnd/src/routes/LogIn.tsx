@@ -34,7 +34,6 @@ const LogIn = () => {
 		// createUser(user)
 		// 	.then((data) => {
 		// 		console.log(data);
-		// 		alert('User created successfully');
 		// 		navigate('/');
 		// 	})
 		// 	.catch((error) => {
